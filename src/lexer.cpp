@@ -68,11 +68,13 @@ inline void Lexer::push_token(const Token& tk) {
 #pragma endregion
 Lexer& Lexer::load_file(const std::string& file) {
   std::ifstream ifs(file);
-  std::string temp;
-  while (ifs) {
-    std::getline(ifs, temp);
-    source += temp;
-  }
+  if(!ifs.good())throw " not found!";
+  source.assign(std::string(std::istreambuf_iterator<char>(ifs)
+                            ,std::istreambuf_iterator<char>()));
+  // or do this
+  // std::stringstream sstream;
+  // sstream << ifs;
+  // source.assign(sstream.str());
   if (debug_mode) {
     std::cout << "file content: " << source << std::endl;
   }
