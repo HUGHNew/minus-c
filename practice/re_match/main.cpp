@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<map>
 
 #include<match.h>
 #include<debug.hpp>
@@ -9,19 +10,24 @@
 // [.] re_match("scu-cs", "scu.cs");
 // [.] re_match("compilable", ".*able");
 int main(){
-  std::vector<std::string> 
-    texts{"goood","goood","scu-cs","compilable","","","key"},
-    regex{"go*d","g.*od","scu.cs*",".*able",".*able",".*a*b*",""};
-  try{
-    for(int i = 0 ;i<texts.size();++i){
-      Debug::assert(regex::re_match(texts[i],regex[i]),[&](){
-        std::cerr<<'\''<<texts[i]<<"\' not match '"<<regex[i]<<'\''<<std::endl;
+  std::map<std::string,std::string> examples{
+    {"goood","go*d"},
+    {"gooood","g.*d"},
+    {"scu-cs","scu.cs*"},
+    {"compilable",".*able"},
+    {"",".*a*b*"},
+    {"key","keys*"},
+    {"abc","efg"},
+    {"abcd","**"}
+  };
+  for(auto &&it:examples){
+    try{
+      Debug::assert(regex::re_match(it.first,it.second),[&](){
+        std::cerr<<"\'"<<it.first<<"\' not match '"<<it.second<<'\''<<std::endl;
       });
-    }
-  }catch(const char*e){
-    std::cout<<e<<std::endl;
-  }catch(std::string const&s){
-    std::cerr<<s<<std::endl;
+    }catch(std::string const&s){
+      std::cerr<<"\'"<<it.first<<"\' not match '"<<it.second<<'\''<<std::endl;
+    }catch(...){std::cout<<"???"<<std::endl;}
   }
   return 0;
 }

@@ -17,7 +17,7 @@ int regex::regex_check(const std::string& pattern){
 bool regex::match(const std::string&pat){
   int code;
   if((code=regex_check(pat))!=-1){
-    if(pat.size()==0)throw "empty pattern is not allowed";
+    if(pat.size()==0)throw std::string("empty pattern is not allowed");
     else throw pat+":repeat `*` or unacceptable char at ["+std::to_string(code)+"]";
     return false;
   } // notnull
