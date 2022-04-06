@@ -4,6 +4,7 @@
 int main(int argc,char*argv[]){
   if(argc==1){
     std::cout<<"no input files"<<std::endl;
+    return 1;
   }
   Lexer l;
   for(int i=1;i<argc;++i){
