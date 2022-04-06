@@ -6,6 +6,10 @@
 #include <vector>
 
 #pragma region private functions
+Lexer& Lexer::set_mode(bool debug){
+  debug_mode = debug;
+  return *this;
+}
 size_t Lexer::skip_comment(size_t slash) {
   size_t sr = row, sc = col;  // start position
   for (size_t star = slash + 2; star < source.size(); ++star) {
@@ -92,9 +96,6 @@ Lexer& Lexer::load_code(const std::string& code) {
 std::vector<Token> Lexer::execute(bool debug) {
   debug_mode = debug;
   if (tokens.size() != 0) return tokens;
-  if (debug_mode) {
-    std::cout << "begin to scan code" << std::endl;
-  }
   for (size_t scan = 0; scan < source.size();) {
     if (isspace(source[scan])) {  // skip space
       if (source[scan] == '\n') {

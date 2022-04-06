@@ -1,5 +1,13 @@
+# archives
+*.tar
+*.gz
+*.xz
+*.bz
+
 # xmake
 .xmake
+bin
+lib
 # C++
 # Prerequisites
 *.d

@@ -29,6 +29,7 @@ public:
   Lexer& load_file(const str&file);
   Lexer& load_code(const str&code);
   std::vector<Token> execute(bool debug=false);
+  Lexer& set_mode(bool debug_mode);
   # pragma region token getter
   /**
    * @brief the same funtion as @skip_comment

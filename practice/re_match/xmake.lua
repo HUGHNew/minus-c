@@ -1,0 +1,11 @@
+add_rules("mode.release") -- no debug
+set_languages("cxx17")
+add_includedirs(".")
+-- set_targetdir("./re_match")
+target("match")
+    set_kind("static")
+    add_files("match.cpp")
+target("re_main")
+    set_kind("binary")
+    add_files("main.cpp")
+    add_deps("match")
