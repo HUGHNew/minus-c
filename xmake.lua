@@ -11,5 +11,10 @@ target("minus-lexer") -- lexer
   add_files("Lexer.cpp")
   add_deps("lexer")
 target_end()
+target("minus-preprocessor") -- preprocess
+  set_kind("binary")
+  set_targetdir("bin")
+  add_files("Preprocessor.cpp","src/preprocessor.cpp")
+target_end()
 
 includes("practice/re_match")
