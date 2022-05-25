@@ -54,17 +54,30 @@ struct ast* newast(int type, int cnt, const char* val, ...) {
 }
 static const char* indent = "  "; /* double blank */
 static unsigned seq = 0;
-void show_ast(struct ast* root, int it) {
+void show_ast_helper(struct ast* root,int it){
   if (root != NULL) {
-    printf("%d. ", ++seq);
-    for (int i = 0; i < it; ++i) {
-      printf("%s", indent);
-    }
-    printf("%s\n", root->value);
-    for (int i = 0; i < root->node_cnt; ++i) {
-      show_ast(root->childen[i], it + 1);
+    // printf("%d. ", ++seq);
+    if(root->type){
+      for (int i = 0; i < it; ++i) {
+        printf("%s", indent);
+      }
+      printf("%s\n", root->value);
+    }else{
+      int t_sum = 0;
+      for (int i = 0; i < root->node_cnt; ++i) {
+        if(root->childen[i]){
+          t_sum += root->childen[i]->type;
+        }
+      }
+      int n = t_sum==0?it:it+1;
+      for (int i = 0; i < root->node_cnt; ++i) {
+        show_ast_helper(root->childen[i], n);
+      }
     }
   }
+}
+void show_ast(struct ast* root) {
+  show_ast_helper(root,-1);
 }
 #pragma region eval
 void eval_helper(struct ast* root, int cnt, eval_fn fn) {
@@ -118,7 +131,7 @@ void debugf(const char* fmt, ...) {
 int main(int argc, char* argv[]) {
   for (int i = 1; i < argc; ++i) {
     if ((yyin = fopen(argv[i], "r"))) {
-      printf("file:%s",argv[i]);
+      printf("file:%s\n",argv[i]);
       if (yyparse()) {
         yyerror("parse error when process file:%s", argv[i]);
       }

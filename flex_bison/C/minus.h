@@ -1,4 +1,6 @@
 #include<stdio.h>
+#ifndef __C__MINUS__
+#define __C__MINUS__ 1
 /* interface to the lexer */
 extern int yylineno; /* from lexer */
 extern FILE* yyin; /* from lexer */
@@ -27,5 +29,6 @@ struct ast* newterm(int type, struct lex* val);
 #else
 struct ast* newterm(int type, const char* val);
 #endif
-void show_ast(struct ast*,int);
+void show_ast(struct ast*);
 void astfree(struct ast*);
+#endif//__C__MINUS__

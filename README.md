@@ -183,10 +183,8 @@ A -> a
 语法树输出格式为
 `<space>`为空格
 ```bnf
-A' -> a A
+a
 <space><space>a
-<space><space>A -> a
-<space><space><space><space>a
 ```
 若出现语法错误则中止该文件的分析 并输出错误位置 如下示例
 ```

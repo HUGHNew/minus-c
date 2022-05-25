@@ -9,7 +9,7 @@ objs=minus.o minus_impl.o
 minus: minus.l minus.y minus.h ${objs}
 	${yacc} -L ${lang} -d "$@.y"
 	lex -o "$@.lex.c" $<
-	${cc} -o $@ "$@.lex.c" ${objs}
+	${cc} -o $@ ${objs} "$@.lex.c" 
 minus_impl.o: minus_impl.c
 minus.o: minus.c
 .PHONY:clean run

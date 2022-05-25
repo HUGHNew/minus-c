@@ -25,8 +25,8 @@ local_decls stmt_list stmt expr_stmt select_stmt else_stmt iter_stmt ret_stmt
 expr var simple_expr add_expr term factor call args arg_list 
 %%
 program : decl_list {
-    puts("0. program -> decl_list");
-    show_ast($1,1);
+    // puts("0. program -> decl_list");
+    show_ast($1);
     astfree($1);
   }
   ;
