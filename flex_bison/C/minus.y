@@ -18,16 +18,16 @@ enum TokenType{
 %token<id> IF ELSE RETURN VOID INT WHILE
 %token<id> relop
 
-%type<tree>
+%type<tree>program
 decl_list decl var_decl type_spec func_decl
 params params_list param param_suff compound_stmt
 local_decls stmt_list stmt expr_stmt select_stmt else_stmt iter_stmt ret_stmt
 expr var simple_expr add_expr term factor call args arg_list 
 %%
 program : decl_list {
-    // puts("0. program -> decl_list");
-    show_ast($1);
-    astfree($1);
+    $$ = newast(NoT,1,"program -> decl_list",$1);
+    show_ast($$);
+    astfree($$);
   }
   ;
 decl_list : decl{$$=newast(NoT,1,"decl_list -> decl",$1);}

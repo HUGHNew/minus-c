@@ -57,12 +57,13 @@ static unsigned seq = 0;
 void show_ast_helper(struct ast* root,int it){
   if (root != NULL) {
     // printf("%d. ", ++seq);
+    for (int i = 0; i < it-1; ++i) {
+      printf("%s", indent);
+    }
     if(root->type){
-      for (int i = 0; i < it; ++i) {
-        printf("%s", indent);
-      }
-      printf("%s\n", root->value);
+      printf("  %s\n", root->value);
     }else{
+      printf(" <%s>\n", root->value);
       int t_sum = 0;
       for (int i = 0; i < root->node_cnt; ++i) {
         if(root->childen[i]){
@@ -77,7 +78,7 @@ void show_ast_helper(struct ast* root,int it){
   }
 }
 void show_ast(struct ast* root) {
-  show_ast_helper(root,-1);
+  show_ast_helper(root,0);
 }
 #pragma region eval
 void eval_helper(struct ast* root, int cnt, eval_fn fn) {

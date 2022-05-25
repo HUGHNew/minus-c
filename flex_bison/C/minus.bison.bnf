@@ -1,4 +1,6 @@
-decl_list : decl
+program : decl_list
+  ;
+  decl_list : decl
   | decl decl_list
   ;
 decl : var_decl 
