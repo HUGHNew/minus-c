@@ -8,7 +8,7 @@ void yyerror(char *s,...);
 void debugf(const char*fmt,...);
 
 struct lex{
-  const char*val;
+  char*val;
   unsigned len;
 };
 
@@ -20,10 +20,12 @@ struct ast{
 typedef void (*eval_fn)(struct ast*,int);
 // struct ast* newbase(int type,int cnt,const char*val,...);
 struct ast* newast(int type,int cnt,const char*val,...);
-#define LEX
+#define LEX 1
+#if LEX == 1
 struct lex* newlex(const char*);
-// yylval.id->val=yytext;yylval.id->len=strlen(yytext);
-// struct ast* newterm(int type, const char* val);
 struct ast* newterm(int type, struct lex* val);
+#else
+struct ast* newterm(int type, const char* val);
+#endif
 void show_ast(struct ast*,int);
 void astfree(struct ast*);

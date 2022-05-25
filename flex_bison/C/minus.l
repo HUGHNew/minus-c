@@ -50,7 +50,7 @@ while   {printToken("keyword",yytext,yylineno,column);column+=5;yylval.id=newlex
 <COMMENT>\n+ {column=1;}
 <COMMENT>. {column+=1;}
 <COMMENT><<EOF>> {
-  fprintf(stderr,"(%d,%d)unterminated comment start here\n",cline,ccol);
+  yyerror("(%d,%d) unterminated comment start here",cline,ccol);
   return 0;
 }
 
