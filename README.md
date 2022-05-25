@@ -10,17 +10,19 @@
   - [lexer](#lexer)
     - [使用](#使用-1)
     - [输出格式](#输出格式)
+  - [parser](#parser)
+    - [Flex/Bison-C](#flexbison-c)
 
-- [ ] 小实验
+- [x] 小实验
   - [x] re_match
-  - [ ] LL(1)
 - [x] preprocessor
-- [ ] Lexer
+- [x] Lexer
   - [x] C++
-  - [ ] flex
+  - [x] flex
 - [ ] Parser
   - [ ] C++
   - [ ] bison
+    - [x] C
 
 > build by [xmake](https://github.com/xmake-io/xmake/)
 
@@ -124,3 +126,16 @@ lexeme ::= `<'__name__',__type,(__line,__col)>`
   - keyword
 - 行号和列号都是从1开始
 
+## parser
+
+BNF 文法:<c-minus.bnf>
+
+### Flex/Bison-C
+
+路径: `flex_bison/C`
+
+> 使用 Makefile/Make 作为构建系统
+> 
+> 这里使用 `clang` 作为 C语言编译器 可以通过更改 [Makefile](flex_bison/C/Makefile) 中的 `cc` 变量来切换为 `gcc` 等编译器
+
+也可以使用 flex 构建的 lexer

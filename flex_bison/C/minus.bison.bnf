@@ -1,0 +1,74 @@
+decl_list : decl
+  | decl decl_list
+  ;
+decl : var_decl 
+  | func_decl 
+  ;
+var_decl : type_spec var SEMI
+  ;
+type_spec : INT 
+  | VOID 
+  ;
+func_decl : type_spec ID LS params RS compound_stmt 
+  ;
+params : params_list 
+  | VOID 
+  ;
+params_list : param COMMA params_list
+  | param 
+  ;
+param : type_spec param_suff 
+  ;
+param_suff : ID 
+  | ID LM RM 
+  ;
+compound_stmt : LL local_decls stmt_list RL
+  ;
+local_decls :| var_decl local_decls
+  ;
+stmt_list :| stmt stmt_list
+  ;
+stmt : expr_stmt
+  | compound_stmt
+  | select_stmt
+  | iter_stmt
+  | ret_stmt
+  ;
+expr_stmt : expr SEMI
+  | SEMI
+  ;
+select_stmt : IF LS expr RS stmt else_stmt
+  ;
+else_stmt :| ELSE stmt
+  ;
+iter_stmt : WHILE LS expr RS stmt
+  ;
+ret_stmt : RETURN expr_stmt
+  ;
+expr : simple_expr
+  |var ASS expr
+  ;
+var : ID 
+  | ID LM expr RM
+  ;
+simple_expr : add_expr
+  |add_expr relop add_expr
+  ;
+add_expr : term
+  |add_expr addop term
+  ;
+term : factor
+  |term mulop factor
+  ;
+factor : NUM
+  |LS expr RS
+  |var
+  |call
+  ;
+call : ID LS args RS 
+  ;
+args :|arg_list
+  ;
+arg_list : expr COMMA arg_list
+  |expr
+  ;

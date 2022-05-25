@@ -1,0 +1,31 @@
+program ::= decl_list
+decl_list ::= decl decl_list| decl
+decl ::= var_decl|func_decl
+var_decl ::= type_spec var ;
+type_spec ::= int | void
+func_decl ::= type_spec ID (params) compound_stmt
+params ::= params_list | void
+params_list ::= param,params_list|param
+param ::= type_spec param_suff
+param_suff ::= ID|ID []
+compound_stmt ::= { local_decls stmt_list }
+local_decls ::= empty|var_decl local_decls
+stmt_list ::= empty|stmt stmt_list
+stmt ::= expr_stmt | compound_stmt | select_stmt | iter_stmt | ret_stmt
+expr_stmt ::= expr ; | ;
+select_stmt ::= if (expr) stmt else_stmt
+else_stmt ::= empty | else stmt
+iter_stmt ::= while(expr)stmt
+ret_stmt ::= return expr_stmt
+expr ::= var = expr|simple_expr
+var ::= ID | ID [expr]
+simple_expr ::= add_expr relop add_expr | add_expr
+relop ::= <= | < | > | >= | == | !=
+add_expr ::= add_expr addop term|term
+addop ::= +|-
+term ::= term mulop factor|factor
+mulop ::= /|*
+factor ::= (expr)|var|call|NUM
+call ::= ID(args)
+args ::= empty|arg_list
+arg_list ::= expr,arg_list|expr
