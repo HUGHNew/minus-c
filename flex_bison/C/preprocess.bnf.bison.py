@@ -20,7 +20,7 @@ def wrap_lexeme(lex:str,idx:int)->str:
       return f"newterm({t},${idx})"
   else: return f"${idx}"
 def add_rule(pat:str,parts:list)->str:
-  return f"{{$$=newast({len(parts)},\"{pat.lower()}\",{','.join([wrap_lexeme(lex,i+1) for i,lex in enumerate(parts)])});}}"
+  return f"{{$$=newast(NoT,{len(parts)},\"{pat.lower()}\",{','.join([wrap_lexeme(lex,i+1) for i,lex in enumerate(parts)])});}}"
 def modify(s:str)->str:
   _t = judge_type(s)
   global head

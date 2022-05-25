@@ -1,14 +1,13 @@
 %{
 #include"minus.h"
 void yyerror(char *s,...);
-void show_ast(struct ast*,int);
 enum TokenType{
   NoT,Id,Keyword,Num,Sign,Op
 };
 %}
 
 %union{
-  const char* id;
+  struct lex* id;
   struct ast* tree;
 }
 
@@ -26,8 +25,7 @@ local_decls stmt_list stmt expr_stmt select_stmt else_stmt iter_stmt ret_stmt
 expr var simple_expr add_expr term factor call args arg_list 
 %%
 program : decl_list {
-    puts("program -> decl_list");
-    // eval($1,show_ast);
+    puts("0. program -> decl_list");
     show_ast($1,1);
     astfree($1);
   }

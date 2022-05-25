@@ -4,16 +4,33 @@
 
 #include "minus.h"
 
-#define DEBUG 1
+#define PARSE_DEBUG 0
 
 #pragma region ast
 static const int PSize = sizeof(struct ast*);
+#ifdef LEX
+struct lex* newlex(const char*text){
+  struct lex* val = malloc(sizeof(struct lex));
+  val->val = strdup(text);
+  val->len = strlen(text);
+  return val;
+}
+struct ast* newterm(int type, struct lex* val) {
+  if(val){
+    char* token = val->val;
+    free(val);
+    val = NULL;
+    return newast(type, 0, token);
+  }else return NULL;
+}
+#else
 struct ast* newterm(int type, const char* val) {
   // char* token = (char*)malloc(val->len+1);
   // strncpy(token,val->val,val->len);
   // token[val->len] = 0;
   return newast(type, 0, val);
 }
+#endif
 struct ast* newast(int type,int cnt, const char* val, ...) {
   struct ast* node = (struct ast*)malloc(sizeof(struct ast) + cnt * PSize);
   if (node) {
@@ -74,7 +91,7 @@ void astfree(struct ast* root) {
     for (int i = 0; i < root->node_cnt; ++i) {
       astfree(root->childen[i]);
     }
-    // if(root->type>0) free(root->value);
+    if(root->type>0) free(root->value);
     free(root);
     root = NULL;
   }
@@ -89,7 +106,7 @@ void yyerror(char* s, ...) {
   fprintf(stderr, "\033[0m\n");
 }
 void debugf(const char*fmt,...){
-  #if DEBUG == 1
+  #if PARSE_DEBUG == 1
   va_list ap;
   va_start(ap,fmt);
   vfprintf(stdout,fmt,ap);

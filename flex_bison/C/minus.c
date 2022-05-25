@@ -70,12 +70,11 @@
 
 #include"minus.h"
 void yyerror(char *s,...);
-void show_ast(struct ast*,int);
 enum TokenType{
   NoT,Id,Keyword,Num,Sign,Op
 };
 
-#line 79 "y.tab.c"
+#line 78 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -168,12 +167,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 10 "minus.y"
+#line 9 "minus.y"
 
-  const char* id;
+  struct lex* id;
   struct ast* tree;
 
-#line 177 "y.tab.c"
+#line 176 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -550,12 +549,12 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    35,    36,    39,    40,    43,    46,    47,
-      50,    53,    54,    57,    58,    61,    64,    65,    68,    71,
-      71,    74,    74,    77,    78,    79,    80,    81,    84,    85,
-      88,    91,    91,    94,    97,   100,   101,   104,   105,   108,
-     109,   112,   113,   116,   117,   120,   121,   122,   123,   126,
-     129,   129,   132,   133
+       0,    27,    27,    33,    34,    37,    38,    41,    44,    45,
+      48,    51,    52,    55,    56,    59,    62,    63,    66,    69,
+      69,    72,    72,    75,    76,    77,    78,    79,    82,    83,
+      86,    89,    89,    92,    95,    98,    99,   102,   103,   106,
+     107,   110,   111,   114,   115,   118,   119,   120,   121,   124,
+     127,   127,   130,   131
 };
 #endif
 
@@ -1405,324 +1404,323 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 28 "minus.y"
+#line 27 "minus.y"
                     {
-    puts("program -> decl_list");
-    // eval($1,show_ast);
+    puts("0. program -> decl_list");
     show_ast((yyvsp[0].tree),1);
-    astfree((yyvsp[0].tree));
+    // astfree($1);
   }
-#line 1416 "y.tab.c"
+#line 1414 "y.tab.c"
     break;
 
   case 3:
-#line 35 "minus.y"
+#line 33 "minus.y"
                 {(yyval.tree)=newast(NoT,1,"decl_list -> decl",(yyvsp[0].tree));}
-#line 1422 "y.tab.c"
+#line 1420 "y.tab.c"
     break;
 
   case 4:
-#line 36 "minus.y"
+#line 34 "minus.y"
                   {(yyval.tree)=newast(NoT,2,"decl_list-> decl decl_list",(yyvsp[-1].tree),(yyvsp[0].tree));}
-#line 1428 "y.tab.c"
+#line 1426 "y.tab.c"
     break;
 
   case 5:
-#line 39 "minus.y"
+#line 37 "minus.y"
                 {(yyval.tree)=newast(NoT,1,"decl -> var_decl ",(yyvsp[0].tree));}
-#line 1434 "y.tab.c"
+#line 1432 "y.tab.c"
     break;
 
   case 6:
-#line 40 "minus.y"
+#line 38 "minus.y"
               {(yyval.tree)=newast(NoT,1,"decl-> func_decl ",(yyvsp[0].tree));}
-#line 1440 "y.tab.c"
+#line 1438 "y.tab.c"
     break;
 
   case 7:
-#line 43 "minus.y"
+#line 41 "minus.y"
                              {(yyval.tree)=newast(NoT,3,"var_decl -> type_spec var ;",(yyvsp[-2].tree),(yyvsp[-1].tree),newterm(Sign,(yyvsp[0].id)));}
-#line 1446 "y.tab.c"
+#line 1444 "y.tab.c"
     break;
 
   case 8:
-#line 46 "minus.y"
+#line 44 "minus.y"
                 {(yyval.tree)=newast(NoT,1,"type_spec -> int ",newterm(Sign,(yyvsp[0].id)));}
-#line 1452 "y.tab.c"
+#line 1450 "y.tab.c"
     break;
 
   case 9:
-#line 47 "minus.y"
+#line 45 "minus.y"
          {(yyval.tree)=newast(NoT,1,"type_spec-> void ",newterm(Sign,(yyvsp[0].id)));}
-#line 1458 "y.tab.c"
+#line 1456 "y.tab.c"
     break;
 
   case 10:
-#line 50 "minus.y"
+#line 48 "minus.y"
                                                     {(yyval.tree)=newast(NoT,6,"func_decl -> type_spec id ( params ) compound_stmt ",(yyvsp[-5].tree),newterm(Id,(yyvsp[-4].id)),newterm(Sign,(yyvsp[-3].id)),(yyvsp[-2].tree),newterm(Sign,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1464 "y.tab.c"
+#line 1462 "y.tab.c"
     break;
 
   case 11:
-#line 53 "minus.y"
+#line 51 "minus.y"
                      {(yyval.tree)=newast(NoT,1,"params -> params_list ",(yyvsp[0].tree));}
-#line 1470 "y.tab.c"
+#line 1468 "y.tab.c"
     break;
 
   case 12:
-#line 54 "minus.y"
+#line 52 "minus.y"
          {(yyval.tree)=newast(NoT,1,"params-> void ",newterm(Sign,(yyvsp[0].id)));}
-#line 1476 "y.tab.c"
+#line 1474 "y.tab.c"
     break;
 
   case 13:
-#line 57 "minus.y"
+#line 55 "minus.y"
                                      {(yyval.tree)=newast(NoT,3,"params_list -> param , params_list",(yyvsp[-2].tree),newterm(Sign,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1482 "y.tab.c"
+#line 1480 "y.tab.c"
     break;
 
   case 14:
-#line 58 "minus.y"
+#line 56 "minus.y"
           {(yyval.tree)=newast(NoT,1,"params_list-> param ",(yyvsp[0].tree));}
-#line 1488 "y.tab.c"
+#line 1486 "y.tab.c"
     break;
 
   case 15:
-#line 61 "minus.y"
+#line 59 "minus.y"
                              {(yyval.tree)=newast(NoT,2,"param -> type_spec param_suff ",(yyvsp[-1].tree),(yyvsp[0].tree));}
-#line 1494 "y.tab.c"
+#line 1492 "y.tab.c"
     break;
 
   case 16:
-#line 64 "minus.y"
+#line 62 "minus.y"
                 {(yyval.tree)=newast(NoT,1,"param_suff -> id ",newterm(Id,(yyvsp[0].id)));}
-#line 1500 "y.tab.c"
+#line 1498 "y.tab.c"
     break;
 
   case 17:
-#line 65 "minus.y"
+#line 63 "minus.y"
              {(yyval.tree)=newast(NoT,3,"param_suff-> id [ ] ",newterm(Id,(yyvsp[-2].id)),newterm(Sign,(yyvsp[-1].id)),newterm(Sign,(yyvsp[0].id)));}
-#line 1506 "y.tab.c"
+#line 1504 "y.tab.c"
     break;
 
   case 18:
-#line 68 "minus.y"
+#line 66 "minus.y"
                                            {(yyval.tree)=newast(NoT,4,"compound_stmt -> { local_decls stmt_list }",newterm(Sign,(yyvsp[-3].id)),(yyvsp[-2].tree),(yyvsp[-1].tree),newterm(Sign,(yyvsp[0].id)));}
-#line 1512 "y.tab.c"
+#line 1510 "y.tab.c"
     break;
 
   case 19:
-#line 71 "minus.y"
+#line 69 "minus.y"
              {(yyval.tree)=NULL;}
-#line 1518 "y.tab.c"
+#line 1516 "y.tab.c"
     break;
 
   case 20:
-#line 71 "minus.y"
+#line 69 "minus.y"
                                              {(yyval.tree)=newast(NoT,2,"local_decls -> empty| var_decl local_decls",(yyvsp[-1].tree),(yyvsp[0].tree));}
-#line 1524 "y.tab.c"
+#line 1522 "y.tab.c"
     break;
 
   case 21:
-#line 74 "minus.y"
+#line 72 "minus.y"
            {(yyval.tree)=NULL;}
-#line 1530 "y.tab.c"
+#line 1528 "y.tab.c"
     break;
 
   case 22:
-#line 74 "minus.y"
+#line 72 "minus.y"
                                      {(yyval.tree)=newast(NoT,2,"stmt_list -> empty| stmt stmt_list",(yyvsp[-1].tree),(yyvsp[0].tree));}
-#line 1536 "y.tab.c"
+#line 1534 "y.tab.c"
     break;
 
   case 23:
-#line 77 "minus.y"
+#line 75 "minus.y"
                 {(yyval.tree)=newast(NoT,1,"stmt -> expr_stmt",(yyvsp[0].tree));}
-#line 1542 "y.tab.c"
+#line 1540 "y.tab.c"
     break;
 
   case 24:
-#line 78 "minus.y"
+#line 76 "minus.y"
                  {(yyval.tree)=newast(NoT,1,"stmt-> compound_stmt",(yyvsp[0].tree));}
-#line 1548 "y.tab.c"
+#line 1546 "y.tab.c"
     break;
 
   case 25:
-#line 79 "minus.y"
+#line 77 "minus.y"
                {(yyval.tree)=newast(NoT,1,"stmt-> select_stmt",(yyvsp[0].tree));}
-#line 1554 "y.tab.c"
+#line 1552 "y.tab.c"
     break;
 
   case 26:
-#line 80 "minus.y"
+#line 78 "minus.y"
              {(yyval.tree)=newast(NoT,1,"stmt-> iter_stmt",(yyvsp[0].tree));}
-#line 1560 "y.tab.c"
+#line 1558 "y.tab.c"
     break;
 
   case 27:
-#line 81 "minus.y"
+#line 79 "minus.y"
             {(yyval.tree)=newast(NoT,1,"stmt-> ret_stmt",(yyvsp[0].tree));}
-#line 1566 "y.tab.c"
+#line 1564 "y.tab.c"
     break;
 
   case 28:
-#line 84 "minus.y"
+#line 82 "minus.y"
                      {(yyval.tree)=newast(NoT,2,"expr_stmt -> expr ;",(yyvsp[-1].tree),newterm(Sign,(yyvsp[0].id)));}
-#line 1572 "y.tab.c"
+#line 1570 "y.tab.c"
     break;
 
   case 29:
-#line 85 "minus.y"
+#line 83 "minus.y"
         {(yyval.tree)=newast(NoT,1,"expr_stmt-> ;",newterm(Sign,(yyvsp[0].id)));}
-#line 1578 "y.tab.c"
+#line 1576 "y.tab.c"
     break;
 
   case 30:
-#line 88 "minus.y"
+#line 86 "minus.y"
                                           {(yyval.tree)=newast(NoT,6,"select_stmt -> if ( expr ) stmt else_stmt",newterm(Sign,(yyvsp[-5].id)),newterm(Sign,(yyvsp[-4].id)),(yyvsp[-3].tree),newterm(Sign,(yyvsp[-2].id)),(yyvsp[-1].tree),(yyvsp[0].tree));}
-#line 1584 "y.tab.c"
+#line 1582 "y.tab.c"
     break;
 
   case 31:
-#line 91 "minus.y"
+#line 89 "minus.y"
            {(yyval.tree)=NULL;}
-#line 1590 "y.tab.c"
+#line 1588 "y.tab.c"
     break;
 
   case 32:
-#line 91 "minus.y"
+#line 89 "minus.y"
                                 {(yyval.tree)=newast(NoT,3,"else_stmt -> empty| else stmt",newterm(Keyword,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1596 "y.tab.c"
+#line 1594 "y.tab.c"
     break;
 
   case 33:
-#line 94 "minus.y"
+#line 92 "minus.y"
                                  {(yyval.tree)=newast(NoT,5,"iter_stmt -> while ( expr ) stmt",newterm(Sign,(yyvsp[-4].id)),newterm(Sign,(yyvsp[-3].id)),(yyvsp[-2].tree),newterm(Sign,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1602 "y.tab.c"
+#line 1600 "y.tab.c"
     break;
 
   case 34:
-#line 97 "minus.y"
+#line 95 "minus.y"
                            {(yyval.tree)=newast(NoT,2,"ret_stmt -> return expr_stmt",newterm(Sign,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1608 "y.tab.c"
+#line 1606 "y.tab.c"
     break;
 
   case 35:
-#line 100 "minus.y"
+#line 98 "minus.y"
                   {(yyval.tree)=newast(NoT,1,"expr -> simple_expr",(yyvsp[0].tree));}
-#line 1614 "y.tab.c"
+#line 1612 "y.tab.c"
     break;
 
   case 36:
-#line 101 "minus.y"
+#line 99 "minus.y"
                {(yyval.tree)=newast(NoT,3,"expr->var = expr",(yyvsp[-2].tree),newterm(Sign,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1620 "y.tab.c"
+#line 1618 "y.tab.c"
     break;
 
   case 37:
-#line 104 "minus.y"
+#line 102 "minus.y"
          {(yyval.tree)=newast(NoT,1,"var -> id ",newterm(Id,(yyvsp[0].id)));}
-#line 1626 "y.tab.c"
+#line 1624 "y.tab.c"
     break;
 
   case 38:
-#line 105 "minus.y"
+#line 103 "minus.y"
                  {(yyval.tree)=newast(NoT,4,"var-> id [ expr ]",newterm(Id,(yyvsp[-3].id)),newterm(Sign,(yyvsp[-2].id)),(yyvsp[-1].tree),newterm(Sign,(yyvsp[0].id)));}
-#line 1632 "y.tab.c"
+#line 1630 "y.tab.c"
     break;
 
   case 39:
-#line 108 "minus.y"
+#line 106 "minus.y"
                       {(yyval.tree)=newast(NoT,1,"simple_expr -> add_expr",(yyvsp[0].tree));}
-#line 1638 "y.tab.c"
+#line 1636 "y.tab.c"
     break;
 
   case 40:
-#line 109 "minus.y"
+#line 107 "minus.y"
                           {(yyval.tree)=newast(NoT,3,"simple_expr->add_expr relop add_expr",(yyvsp[-2].tree),newterm(Op,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1644 "y.tab.c"
+#line 1642 "y.tab.c"
     break;
 
   case 41:
-#line 112 "minus.y"
+#line 110 "minus.y"
                {(yyval.tree)=newast(NoT,1,"add_expr -> term",(yyvsp[0].tree));}
-#line 1650 "y.tab.c"
+#line 1648 "y.tab.c"
     break;
 
   case 42:
-#line 113 "minus.y"
+#line 111 "minus.y"
                       {(yyval.tree)=newast(NoT,3,"add_expr->add_expr addop term",(yyvsp[-2].tree),newterm(Op,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1656 "y.tab.c"
+#line 1654 "y.tab.c"
     break;
 
   case 43:
-#line 116 "minus.y"
+#line 114 "minus.y"
              {(yyval.tree)=newast(NoT,1,"term -> factor",(yyvsp[0].tree));}
-#line 1662 "y.tab.c"
+#line 1660 "y.tab.c"
     break;
 
   case 44:
-#line 117 "minus.y"
+#line 115 "minus.y"
                     {(yyval.tree)=newast(NoT,3,"term->term mulop factor",(yyvsp[-2].tree),newterm(Op,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1668 "y.tab.c"
+#line 1666 "y.tab.c"
     break;
 
   case 45:
-#line 120 "minus.y"
+#line 118 "minus.y"
             {(yyval.tree)=newast(NoT,1,"factor -> num",newterm(Sign,(yyvsp[0].id)));}
-#line 1674 "y.tab.c"
+#line 1672 "y.tab.c"
     break;
 
   case 46:
-#line 121 "minus.y"
+#line 119 "minus.y"
              {(yyval.tree)=newast(NoT,3,"factor->( expr )",newterm(Sign,(yyvsp[-2].id)),(yyvsp[-1].tree),newterm(Sign,(yyvsp[0].id)));}
-#line 1680 "y.tab.c"
+#line 1678 "y.tab.c"
     break;
 
   case 47:
-#line 122 "minus.y"
+#line 120 "minus.y"
       {(yyval.tree)=newast(NoT,1,"factor->var",(yyvsp[0].tree));}
-#line 1686 "y.tab.c"
+#line 1684 "y.tab.c"
     break;
 
   case 48:
-#line 123 "minus.y"
+#line 121 "minus.y"
        {(yyval.tree)=newast(NoT,1,"factor->call",(yyvsp[0].tree));}
-#line 1692 "y.tab.c"
+#line 1690 "y.tab.c"
     break;
 
   case 49:
-#line 126 "minus.y"
+#line 124 "minus.y"
                      {(yyval.tree)=newast(NoT,4,"call -> id ( args ) ",newterm(Id,(yyvsp[-3].id)),newterm(Sign,(yyvsp[-2].id)),(yyvsp[-1].tree),newterm(Sign,(yyvsp[0].id)));}
-#line 1698 "y.tab.c"
+#line 1696 "y.tab.c"
     break;
 
   case 50:
-#line 129 "minus.y"
+#line 127 "minus.y"
       {(yyval.tree)=NULL;}
-#line 1704 "y.tab.c"
+#line 1702 "y.tab.c"
     break;
 
   case 51:
-#line 129 "minus.y"
+#line 127 "minus.y"
                          {(yyval.tree)=newast(NoT,1,"args -> empty|arg_list",(yyvsp[0].tree));}
-#line 1710 "y.tab.c"
+#line 1708 "y.tab.c"
     break;
 
   case 52:
-#line 132 "minus.y"
+#line 130 "minus.y"
                               {(yyval.tree)=newast(NoT,3,"arg_list -> expr , arg_list",(yyvsp[-2].tree),newterm(Sign,(yyvsp[-1].id)),(yyvsp[0].tree));}
-#line 1716 "y.tab.c"
+#line 1714 "y.tab.c"
     break;
 
   case 53:
-#line 133 "minus.y"
+#line 131 "minus.y"
        {(yyval.tree)=newast(NoT,1,"arg_list->expr",(yyvsp[0].tree));}
-#line 1722 "y.tab.c"
+#line 1720 "y.tab.c"
     break;
 
 
-#line 1726 "y.tab.c"
+#line 1724 "y.tab.c"
 
       default: break;
     }
@@ -1954,4 +1952,4 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 135 "minus.y"
+#line 133 "minus.y"

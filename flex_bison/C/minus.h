@@ -7,7 +7,7 @@ extern int yyparse(); /* from parse */
 void yyerror(char *s,...);
 void debugf(const char*fmt,...);
 
-struct lexeme{
+struct lex{
   const char*val;
   unsigned len;
 };
@@ -20,8 +20,10 @@ struct ast{
 typedef void (*eval_fn)(struct ast*,int);
 // struct ast* newbase(int type,int cnt,const char*val,...);
 struct ast* newast(int type,int cnt,const char*val,...);
-struct ast* newterm(int type, const char* val);
-// struct ast* newterm(int type, struct lexeme* val);
-
-void eval(struct ast*,eval_fn);
+#define LEX
+struct lex* newlex(const char*);
+// yylval.id->val=yytext;yylval.id->len=strlen(yytext);
+// struct ast* newterm(int type, const char* val);
+struct ast* newterm(int type, struct lex* val);
+void show_ast(struct ast*,int);
 void astfree(struct ast*);

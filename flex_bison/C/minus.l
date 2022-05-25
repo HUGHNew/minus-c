@@ -7,7 +7,7 @@
 #include"minus.h"
 int column = 1;
 int cline,ccol;
-#define debug 1
+#define debug 0
 void printToken(const char*,const char*,int,int);
 %}
 
@@ -19,27 +19,27 @@ mulop [*/]
 
 %%
 
-if      {printToken("keyword",yytext,yylineno,column);column+=2;yylval.id=yytext;return IF;}
-else    {printToken("keyword",yytext,yylineno,column);column+=4;yylval.id=yytext;return ELSE;}
-return  {printToken("keyword",yytext,yylineno,column);column+=6;yylval.id=yytext;return RETURN;}
-void    {printToken("keyword",yytext,yylineno,column);column+=4;yylval.id=yytext;return VOID;}
-int     {printToken("keyword",yytext,yylineno,column);column+=3;yylval.id=yytext;return INT;}
-while   {printToken("keyword",yytext,yylineno,column);column+=5;yylval.id=yytext;return WHILE;}
+if      {printToken("keyword",yytext,yylineno,column);column+=2;yylval.id=newlex(yytext);return IF;}
+else    {printToken("keyword",yytext,yylineno,column);column+=4;yylval.id=newlex(yytext);return ELSE;}
+return  {printToken("keyword",yytext,yylineno,column);column+=6;yylval.id=newlex(yytext);return RETURN;}
+void    {printToken("keyword",yytext,yylineno,column);column+=4;yylval.id=newlex(yytext);return VOID;}
+int     {printToken("keyword",yytext,yylineno,column);column+=3;yylval.id=newlex(yytext);return INT;}
+while   {printToken("keyword",yytext,yylineno,column);column+=5;yylval.id=newlex(yytext);return WHILE;}
 
-{addop} {printToken("op",yytext,yylineno,column);++column;              yylval.id=yytext;return addop;}
-{mulop} {printToken("op",yytext,yylineno,column);++column;              yylval.id=yytext;return mulop;}
-{relop} {printToken("op",yytext,yylineno,column);column+=strlen(yytext);yylval.id=yytext;return relop;}
+{addop} {printToken("op",yytext,yylineno,column);++column;              yylval.id=newlex(yytext);return addop;}
+{mulop} {printToken("op",yytext,yylineno,column);++column;              yylval.id=newlex(yytext);return mulop;}
+{relop} {printToken("op",yytext,yylineno,column);column+=strlen(yytext);yylval.id=newlex(yytext);return relop;}
 
-"{" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=yytext;return LL;}
-"}" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=yytext;return RL;}
-"[" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=yytext;return LM;}
-"]" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=yytext;return RM;}
-"(" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=yytext;return LS;}
-")" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=yytext;return RS;}
+"{" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return LL;}
+"}" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return RL;}
+"[" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return LM;}
+"]" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return RM;}
+"(" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return LS;}
+")" {printToken("braket",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return RS;}
 
-";" {printToken("SemiComma",yytext,yylineno,column);  ++column;yylval.id=yytext;return SEMI;}
-"=" {printToken("Assign",yytext,yylineno,column);     ++column;yylval.id=yytext;return ASS;}
-"," {printToken("Comma",yytext,yylineno,column);      ++column;yylval.id=yytext;return COMMA;}
+";" {printToken("SemiComma",yytext,yylineno,column);  ++column;yylval.id=newlex(yytext);return SEMI;}
+"=" {printToken("Assign",yytext,yylineno,column);     ++column;yylval.id=newlex(yytext);return ASS;}
+"," {printToken("Comma",yytext,yylineno,column);      ++column;yylval.id=newlex(yytext);return COMMA;}
 "/*"  {
   cline = yylineno; ccol = column;
   column+=2;
@@ -54,8 +54,8 @@ while   {printToken("keyword",yytext,yylineno,column);column+=5;yylval.id=yytext
   return 0;
 }
 
-{id}  {printToken("id",yytext,yylineno,column); column+=strlen(yytext);yylval.id=yytext;return ID;}
-{num} {printToken("num",yytext,yylineno,column);column+=strlen(yytext);yylval.id=yytext;return NUM;}
+{id}  {printToken("id",yytext,yylineno,column); column+=strlen(yytext);yylval.id=newlex(yytext);return ID;}
+{num} {printToken("num",yytext,yylineno,column);column+=strlen(yytext);yylval.id=newlex(yytext);return NUM;}
 \n {column = 1;}
 . {++column;}
 %%
