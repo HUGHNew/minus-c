@@ -62,5 +62,4 @@ def post_wrap(l:str)->str:
 def post_pro(l:List[str])->List[str]:
   return [post_wrap(line) for line in l]
 if __name__ == "__main__":
-  # todo
   [print(line) for line in post_pro(add_actions("minus.bison.bnf"))]

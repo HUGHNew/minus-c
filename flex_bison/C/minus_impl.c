@@ -53,8 +53,8 @@ struct ast* newast(int type, int cnt, const char* val, ...) {
   return node;
 }
 static const char* indent = "  "; /* double blank */
+static unsigned seq = 0;
 void show_ast(struct ast* root, int it) {
-  static unsigned seq = 0;
   if (root != NULL) {
     printf("%d. ", ++seq);
     for (int i = 0; i < it; ++i) {
@@ -82,6 +82,7 @@ void eval(struct ast* root, eval_fn fn) {
 }
 #pragma endregion
 void astfree(struct ast* root) {
+  seq = 0;
   if (root != NULL) {
     if (root->node_cnt) {
       for (int i = 0; i < root->node_cnt; ++i) {
@@ -101,8 +102,8 @@ void astfree(struct ast* root) {
 void yyerror(char* s, ...) {
   va_list ap;
   va_start(ap, s);
-
-  fprintf(stderr, "%d: error:\033[31m", yylineno);
+  extern int column;
+  fprintf(stderr, "%d,%d: error:\033[31m", yylineno,column);
   vfprintf(stderr, s, ap);
   fprintf(stderr, "\033[0m\n");
 }
@@ -117,6 +118,7 @@ void debugf(const char* fmt, ...) {
 int main(int argc, char* argv[]) {
   for (int i = 1; i < argc; ++i) {
     if ((yyin = fopen(argv[i], "r"))) {
+      printf("file:%s",argv[i]);
       if (yyparse()) {
         yyerror("parse error when process file:%s", argv[i]);
       }

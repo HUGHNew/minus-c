@@ -10,8 +10,9 @@
   - [lexer](#lexer)
     - [使用](#使用-1)
     - [输出格式](#输出格式)
-  - [parser](#parser)
-    - [Flex/Bison-C](#flexbison-c)
+  - [Flex/Bison](#flexbison)
+    - [lexer](#lexer-1)
+    - [parser](#parser)
 
 - [x] 小实验
   - [x] re_match
@@ -65,6 +66,8 @@ xmake run re_main
 只会输出不通过的样例
 
 ## preprocessor
+
+> 本来是用来在flex使用的预处理的 但现在在flex中直接处理了注释 所以没有使用了
 
 测试样例
 - test/err.c
@@ -126,16 +129,67 @@ lexeme ::= `<'__name__',__type,(__line,__col)>`
   - keyword
 - 行号和列号都是从1开始
 
-## parser
 
-BNF 文法:<c-minus.bnf>
-
-### Flex/Bison-C
+## Flex/Bison
 
 路径: `flex_bison/C`
+
+所需工具链:
+- flex
+- bison
+- make
+- gcc/clang/mingw-gcc/msvc/..
 
 > 使用 Makefile/Make 作为构建系统
 > 
 > 这里使用 `clang` 作为 C语言编译器 可以通过更改 [Makefile](flex_bison/C/Makefile) 中的 `cc` 变量来切换为 `gcc` 等编译器
 
+### lexer
+
 也可以使用 flex 构建的 lexer
+
+需要把[lex文件](flex_bison/C/minus.l)中的 line 10:`#define debug 0` 中的 0 改为 1
+
+```bash
+# 编译
+make
+# 编译结果为 ./minus
+# 运行
+./minus ../../test/gcd.cminus ../../test/s.cminus
+./minus ../../test/gcd.cminus
+```
+lexeme 格式 `type:<value> (row,column)`
+
+### parser
+
+BNF 文法:<c-minus.bnf>
+bison 版本的BNF文法:<flex_bison/C/minus.bison.bnf> 没有包含第一条规则
+
+利用 [Python 脚本](flex_bison/C/preprocess.bnf.bison.py) 生成普遍的匹配动作
+
+```bash
+cd flex_bison/C/
+python preprocess.bnf.bison.py >> minus.head.y
+# 生成基础的bison文件
+```
+
+假定语法为
+
+```bnf
+A' -> a A
+A -> a
+```
+
+语法树输出格式为
+`<space>`为空格
+```bnf
+A' -> a A
+<space><space>a
+<space><space>A -> a
+<space><space><space><space>a
+```
+若出现语法错误则中止该文件的分析 并输出错误位置 如下示例
+```
+2,13: error:syntax error
+2,13: error:parse error when process file:../../test/error.cminus
+```
