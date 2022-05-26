@@ -51,6 +51,8 @@ while   {printToken("keyword",yytext,yylineno,column);column+=5;yylval.id=newlex
 <COMMENT>. {column+=1;}
 <COMMENT><<EOF>> {
   yyerror("(%d,%d) unterminated comment start here",cline,ccol);
+  BEGIN(INITIAL);
+  yylineno = 1;
   return 0;
 }
 

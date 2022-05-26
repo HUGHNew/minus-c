@@ -1,3 +1,5 @@
+add_rules("mode.release") -- no debug
+set_languages("cxx11")
 target("lexer") -- lexer lib
   set_kind("static")
   set_targetdir("lib")

@@ -123,7 +123,8 @@ void yyerror(char* s, ...) {
   va_list ap;
   va_start(ap, s);
   extern int column;
-  fprintf(stderr, "%d,%d: error:\033[31m", yylineno, column);
+  extern char* yytext;
+  fprintf(stderr, "%d,%d: \033[32mToken:<%s> error:\033[31m", yylineno, column,yytext);
   vfprintf(stderr, s, ap);
   fprintf(stderr, "\033[0m\n");
 }
