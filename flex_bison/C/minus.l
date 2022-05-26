@@ -3,7 +3,7 @@
 %{
 #include<stdio.h>
 #include<string.h>
-#include"minus.tab.h"
+#include"y.tab.h"
 #include"minus.h"
 int column = 1;
 int cline,ccol;
