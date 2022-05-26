@@ -7,6 +7,7 @@
 #define PARSE_DEBUG 0
 
 #pragma region ast
+#pragma region new
 static const int PSize = sizeof(struct ast*);
 #if LEX == 1
 struct lex* newlex(const char* text) {
@@ -52,34 +53,43 @@ struct ast* newast(int type, int cnt, const char* val, ...) {
   }
   return node;
 }
+#pragma endregion
 static const char* indent = "  "; /* double blank */
+void Indent(FILE* fd, int count) {
+  for (int i = 0; i < count; ++i) {
+    fprintf(fd, "%s", indent);
+  }
+}
 static unsigned seq = 0;
-void show_ast_helper(struct ast* root,int it){
+void show_ast_helper(struct ast* root, int it) {
   if (root != NULL) {
     // printf("%d. ", ++seq);
-    for (int i = 0; i < it-1; ++i) {
-      printf("%s", indent);
-    }
-    if(root->type){
-      printf("  %s\n", root->value);
-    }else{
-      printf(" <%s>\n", root->value);
-      int t_sum = 0;
-      for (int i = 0; i < root->node_cnt; ++i) {
-        if(root->childen[i]){
-          t_sum += root->childen[i]->type;
-        }
+    int t_sum = 0;
+    for (int i = 0; i < root->node_cnt; ++i) {
+      if (root->childen[i]) {
+        t_sum += root->childen[i]->type;
       }
-      int n = t_sum==0?it:it+1;
+    }
+#ifdef PARSE_RULE
+    Indent(stdout, it);
+#endif
+    if (root->type) {
+#ifndef PARSE_RULE
+      Indent(stdout, it - 1);
+#endif
+      printf("%s\n", root->value);
+    } else {
+#ifdef PARSE_RULE
+      printf("<%s>\n", root->value);
+#endif
+      int n = t_sum == 0 ? it : it + 1;
       for (int i = 0; i < root->node_cnt; ++i) {
         show_ast_helper(root->childen[i], n);
       }
     }
   }
 }
-void show_ast(struct ast* root) {
-  show_ast_helper(root,0);
-}
+void show_ast(struct ast* root) { show_ast_helper(root, 0); }
 #pragma region eval
 void eval_helper(struct ast* root, int cnt, eval_fn fn) {
   if (root) {
@@ -96,17 +106,13 @@ void eval(struct ast* root, eval_fn fn) {
 }
 #pragma endregion
 void astfree(struct ast* root) {
-  seq = 0;
   if (root != NULL) {
     if (root->node_cnt) {
       for (int i = 0; i < root->node_cnt; ++i) {
         astfree(root->childen[i]);
       }
     } else {
-      if (root->value != NULL) {
-        free((char*)root->value);
-        root->value = NULL;
-      }
+      free((char*)root->value);
     }
     // free(root);
     root = NULL;
@@ -117,7 +123,7 @@ void yyerror(char* s, ...) {
   va_list ap;
   va_start(ap, s);
   extern int column;
-  fprintf(stderr, "%d,%d: error:\033[31m", yylineno,column);
+  fprintf(stderr, "%d,%d: error:\033[31m", yylineno, column);
   vfprintf(stderr, s, ap);
   fprintf(stderr, "\033[0m\n");
 }
@@ -132,7 +138,7 @@ void debugf(const char* fmt, ...) {
 int main(int argc, char* argv[]) {
   for (int i = 1; i < argc; ++i) {
     if ((yyin = fopen(argv[i], "r"))) {
-      printf("file:%s\n",argv[i]);
+      printf("file:%s\n", argv[i]);
       if (yyparse()) {
         yyerror("parse error when process file:%s", argv[i]);
       }

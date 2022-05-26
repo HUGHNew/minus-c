@@ -118,7 +118,7 @@ file:
 lexemes
 [error msg]
 ```
-lexemes ::= lexeme lexemes
+lexemes ::= lexeme lexemes  
 lexeme ::= `<'__name__',__type,(__line,__col)>`
 
 - name 为 lexeme 内容
@@ -162,8 +162,12 @@ lexeme 格式 `type:<value> (row,column)`
 
 ### parser
 
-BNF 文法:<c-minus.bnf>
+BNF 文法:<c-minus.bnf>  
 bison 版本的BNF文法:<flex_bison/C/minus.bison.bnf> 没有包含第一条规则
+
+> 头文件:[minus.h](flex_bison/C/minus.h)
+
+> 源文件:[minus_impl.c](flex_bison/C/minus_impl.c)
 
 利用 [Python 脚本](flex_bison/C/preprocess.bnf.bison.py) 生成普遍的匹配动作
 
@@ -180,12 +184,35 @@ A' -> a A
 A -> a
 ```
 
-语法树输出格式为
-`<space>`为空格
+默认语法树输出格式如下(`<space>`为空格)
 ```bnf
 a
 <space><space>a
 ```
+可以通过定义<flex_bison/C/minus_impl.c>文件中的`PARSE_RULE`的宏来控制是否输出语法规则(存在时输出) 下面是语法规则时的输出(将该项并入了Makefile中)
+```
+A' -> a A
+<space><space>a
+<space><space>A -> a
+<space><space><space><space>a
+```
+
+切换编译目标时 需要 `make clean`
+
+```bash
+# 编译
+make
+# 等于 make minus
+# 编译结果为 ./minus 不会输出语法规则
+make minus_rule
+# 编译结果为 ./minus_rule 会输出语法规则
+# 运行
+./minus ../../test/gcd.cminus ../../test/s.cminus
+./minus ../../test/gcd.cminus
+./minus_rule ../../test/gcd.cminus ../../test/s.cminus
+./minus_rule ../../test/gcd.cminus
+```
+
 若出现语法错误则中止该文件的分析 并输出错误位置 如下示例
 ```
 2,13: error:syntax error
