@@ -189,7 +189,7 @@ A -> a
 a
 <space><space>a
 ```
-可以更改<flex_bison/C/minus_impl.c>文件中的`PARSE_RULE`的值来控制是否输出语法规则(为1时输出) 下面是语法规则时的输出
+可以通过定义<flex_bison/C/minus_impl.c>文件中的`PARSE_RULE`的宏来控制是否输出语法规则(存在时输出) 下面是语法规则时的输出(将该项并入了Makefile中)
 ```
 A' -> a A
 <space><space>a
@@ -202,9 +202,10 @@ A' -> a A
 ```bash
 # 编译
 make
-# 编译结果为 ./minus
+# 等于 make minus
+# 编译结果为 ./minus 不会输出语法规则
 make minus_rule
-# 编译结果为 ./minus_rule 会输出语法规则的程序
+# 编译结果为 ./minus_rule 会输出语法规则
 # 运行
 ./minus ../../test/gcd.cminus ../../test/s.cminus
 ./minus ../../test/gcd.cminus
