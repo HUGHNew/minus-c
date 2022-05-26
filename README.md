@@ -13,6 +13,7 @@
   - [Flex/Bison](#flexbison)
     - [lexer](#lexer-1)
     - [parser](#parser)
+  - [测试样例](#测试样例)
 
 - [x] 小实验
   - [x] re_match
@@ -218,3 +219,12 @@ make minus_rule
 2,13: error:syntax error
 2,13: error:parse error when process file:../../test/error.cminus
 ```
+
+## 测试样例
+
+正确的测试样例
+- gcd.cminus
+- s.cminus
+- sort.cminus
+
+其他都是带错误的样例
