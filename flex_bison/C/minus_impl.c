@@ -80,7 +80,7 @@ void show_ast_helper(struct ast* root, int it) {
       printf("%s\n", root->value);
     } else {
 #ifdef PARSE_RULE
-      printf("<%s>\n", root->value);
+      printf("<\033[34m%s\033[0m>\n", root->value);
 #endif
       int n = t_sum == 0 ? it : it + 1;
       for (int i = 0; i < root->node_cnt; ++i) {

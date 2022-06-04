@@ -208,9 +208,7 @@ make
 make minus_rule
 # 编译结果为 ./minus_rule 会输出语法规则
 # 运行
-./minus ../../test/gcd.cminus ../../test/s.cminus
 ./minus ../../test/gcd.cminus
-./minus_rule ../../test/gcd.cminus ../../test/s.cminus
 ./minus_rule ../../test/gcd.cminus
 ```
 

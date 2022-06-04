@@ -1,14 +1,13 @@
 %{
 #include"minus.h"
 void yyerror(char *s,...);
-void show_ast(struct ast*,int);
 enum TokenType{
   NoT,Id,Keyword,Num,Sign,Op
 };
 %}
 
 %union{
-  const char* id;
+  struct lex* id;
   struct ast* tree;
 }
 
