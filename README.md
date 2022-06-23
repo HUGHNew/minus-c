@@ -14,6 +14,8 @@
     - [lexer](#lexer-1)
     - [parser](#parser)
   - [测试样例](#测试样例)
+  - [报告](#报告)
+  - [todo](#todo)
 
 - [x] 小实验
   - [x] re_match
@@ -25,6 +27,7 @@
   - [ ] C++
   - [ ] bison
     - [x] C
+- [x] report
 
 > build by [xmake](https://github.com/xmake-io/xmake/)
 
@@ -226,3 +229,18 @@ make minus_rule
 - sort.cminus
 
 其他都是带错误的样例
+
+## 报告
+
+实验报告放在 [`report/main.md`](report/main.md) 不建议完全借鉴
+
+## todo
+
+当前未完成工作
+1. bison C++ Parser生成器的实现
+2. xmake lex/yacc or flex/bison 规则的完成 现在工作可见[此处](flex_bison/C/xmake.lua)
+
+可以继续的工作:
+1. 完成手工的递归下降/LL(1)/LR(\*) parser
+2. 实现代码生成并使用LLVM实现 `C-` 语言
+3. `C-` interpreter
